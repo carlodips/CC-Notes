@@ -8,10 +8,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.BaseAdapter
-import android.widget.Toast
 import kotlinx.android.synthetic.main.row.view.*
-import android.text.ClipboardManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -29,17 +28,31 @@ class MainActivity : AppCompatActivity() {
         toolbar!!.title = "Notes"
 
         //Load from DB
-        LoadQuery("%")
+        loadQuery("%")
+
+        notes_list_view.onItemClickListener = object : AdapterView.OnItemClickListener{
+
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // value of item that is clicked
+                val itemValue = notes_list_view.getItemAtPosition(position) as Note
+
+                viewSelectedNote(itemValue)
+                startActivity(intent) //start activity
+                // Toast the values
+            }
+
+
+        }
 
 
     }
 
     override fun onResume() {
         super.onResume()
-        LoadQuery("%")
+        loadQuery("%")
     }
 
-    private fun LoadQuery(title: String) {
+    private fun loadQuery(title: String) {
         var dbManager = DbManager(this)
         val projections = arrayOf("ID", "Title", "Description")
         val selectionArgs = arrayOf(title)
@@ -85,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         // Handle presses on the action bar main_menu items
         when (item.itemId) {
             R.id.add_note_button -> {
-                val intent = Intent(this, NotesActivity::class.java)
+                val intent = Intent(this, AddNotesActivity::class.java)
                 startActivity(intent)
                 return true
 
@@ -110,46 +123,46 @@ class MainActivity : AppCompatActivity() {
             //inflate layout row.xml
             var myView = layoutInflater.inflate(R.layout.row, null)
             val myNote = listNotesAdapter[position]
-            myView.titleTv.text = myNote.noteTitle
-            myView.descTv.text = myNote.noteBody
-            //delete button click
-            myView.deleteBtn.setOnClickListener {
-                var dbManager = DbManager(this.context!!)
-                val selectionArgs = arrayOf(myNote.noteID.toString())
-                dbManager.delete("ID=?", selectionArgs)
-                LoadQuery("%")
-            }
-            //edit//update button click
-            myView.editBtn.setOnClickListener {
-                GoToUpdateFun(myNote)
-            }
-            //copy btn click
-            myView.copyBtn.setOnClickListener {
-                //get title
-                val title = myView.titleTv.text.toString()
-                //get description
-                val desc = myView.descTv.text.toString()
-                //concatinate
-                val s = title + "\n" + desc
-                val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                cb.text = s // add to clipboard
-                Toast.makeText(this@MainActivity, "Copied...", Toast.LENGTH_SHORT).show()
-            }
-            //share btn click
-            myView.shareBtn.setOnClickListener {
-                //get title
-                val title = myView.titleTv.text.toString()
-                //get description
-                val desc = myView.descTv.text.toString()
-                //concatenate
-                val s = title + "\n" + desc
-                //share intent
-                val shareIntent = Intent()
-                shareIntent.action = Intent.ACTION_SEND
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_TEXT, s)
-                startActivity(Intent.createChooser(shareIntent, s))
-            }
+            myView.card_title.text = myNote.noteTitle
+            myView.card_body.text = myNote.noteBody
+//            //delete button click
+//            myView.deleteBtn.setOnClickListener {
+//                var dbManager = DbManager(this.context!!)
+//                val selectionArgs = arrayOf(myNote.noteID.toString())
+//                dbManager.delete("ID=?", selectionArgs)
+//                loadQuery("%")
+//            }
+//            //edit//update button click
+//            myView.editBtn.setOnClickListener {
+//                viewSelectedNote(myNote)
+//            }
+//            //copy btn click
+//            myView.copyBtn.setOnClickListener {
+//                //get title
+//                val title = myView.card_title.text.toString()
+//                //get description
+//                val desc = myView.card_body.text.toString()
+//                //concatinate
+//                val s = title + "\n" + desc
+//                val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+//                cb.text = s // add to clipboard
+//                Toast.makeText(this@MainActivity, "Copied...", Toast.LENGTH_SHORT).show()
+//            }
+//            //share btn click
+//            myView.shareBtn.setOnClickListener {
+//                //get title
+//                val title = myView.card_title.text.toString()
+//                //get description
+//                val desc = myView.card_body.text.toString()
+//                //concatenate
+//                val s = title + "\n" + desc
+//                //share intent
+//                val shareIntent = Intent()
+//                shareIntent.action = Intent.ACTION_SEND
+//                shareIntent.type = "text/plain"
+//                shareIntent.putExtra(Intent.EXTRA_TEXT, s)
+//                startActivity(Intent.createChooser(shareIntent, s))
+//            }
 
             return myView
         }
@@ -168,11 +181,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun GoToUpdateFun(myNote: Note) {
-        var intent = Intent(this, NotesActivity::class.java)
+
+
+    private fun viewSelectedNote(myNote: Note) {
+        var intent = Intent(this, ViewNoteActivity::class.java)
         intent.putExtra("ID", myNote.noteID) //put id
-        intent.putExtra("name", myNote.noteTitle) //ut name
-        intent.putExtra("des", myNote.noteBody) //put description
+        intent.putExtra("title", myNote.noteTitle) //put name
+        intent.putExtra("body", myNote.noteBody) //put description
         startActivity(intent) //start activity
     }
 }

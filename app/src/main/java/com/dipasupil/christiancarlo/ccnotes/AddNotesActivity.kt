@@ -1,24 +1,20 @@
 package com.dipasupil.christiancarlo.ccnotes
 
 import android.content.ContentValues
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_notes.*
-import java.io.File
+import kotlinx.android.synthetic.main.activity_add_notes.*
 
-class NotesActivity : AppCompatActivity() {
+class AddNotesActivity : AppCompatActivity() {
     val dbTable = "Notes"
     var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notes)
+        setContentView(R.layout.activity_add_notes)
 
         //main toolbar
         setSupportActionBar(findViewById(R.id.app_bar))
