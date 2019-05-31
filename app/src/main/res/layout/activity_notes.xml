@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NotesActivity">
 
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar">
+
+    </include>
+
     <EditText
+        android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title..."
-        android:id="@+id/note_title"
-        android:layout_above="@id/note_title"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_below="@id/app_bar"
+
+        android:hint="Title" />
+
     <EditText
+        android:id="@+id/note_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Type here..."
-        android:gravity="top"
-        android:id="@+id/note_body"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_below="@id/note_title"
+
+        android:hint="Insert Note"
+        android:singleLine="true" />
+
+
+
+</RelativeLayout>
