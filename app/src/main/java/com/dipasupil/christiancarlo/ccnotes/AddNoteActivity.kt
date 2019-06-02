@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_notes.*
 
-class AddNotesActivity : AppCompatActivity() {
+class AddNoteActivity : AppCompatActivity() {
     val dbTable = "Notes"
     var id = 0
 
@@ -23,14 +23,14 @@ class AddNotesActivity : AppCompatActivity() {
 
         toolbar!!.title = "Add Note"
 
-        try {
-            val bundle:Bundle = intent.extras
-            id = bundle.getInt("ID", 0)
-            if (id!=0){
-                note_title.setText(bundle.getString("name"))
-                note_body.setText(bundle.getString("des"))
-            }
-        }catch (ex:Exception){}
+//        try {
+//            val bundle:Bundle = intent.extras
+//            id = bundle.getInt("ID", 0)
+//            if (id!=0){
+//                note_title.setText(bundle.getString("name"))
+//                note_body.setText(bundle.getString("des"))
+//            }
+//        }catch (ex:Exception){}
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

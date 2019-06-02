@@ -41,8 +41,11 @@ class ViewNoteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar main_menu items
         when (item.itemId) {
-            R.id.edit_note_button -> {
-                val intent = Intent(this, AddNotesActivity::class.java)
+            R.id.edit_note_button -> { //edit
+                val intent = Intent(this, EditNoteActivity::class.java)
+                intent.putExtra("ID", id) //put id
+                intent.putExtra("title", note_title.text.toString()) //put name
+                intent.putExtra("body", note_body.text.toString()) //put description
                 startActivity(intent)
                 return true
 

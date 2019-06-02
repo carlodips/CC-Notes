@@ -32,13 +32,11 @@ class MainActivity : AppCompatActivity() {
 
         notes_list_view.onItemClickListener = object : AdapterView.OnItemClickListener{
 
+            //View selected note from the list view
             override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // value of item that is clicked
                 val itemValue = notes_list_view.getItemAtPosition(position) as Note
-
                 viewSelectedNote(itemValue)
-                startActivity(intent) //start activity
-                // Toast the values
             }
 
 
@@ -98,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         // Handle presses on the action bar main_menu items
         when (item.itemId) {
             R.id.add_note_button -> {
-                val intent = Intent(this, AddNotesActivity::class.java)
+                val intent = Intent(this, AddNoteActivity::class.java)
                 startActivity(intent)
                 return true
 
@@ -182,12 +180,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun viewSelectedNote(myNote: Note) {
         var intent = Intent(this, ViewNoteActivity::class.java)
         intent.putExtra("ID", myNote.noteID) //put id
         intent.putExtra("title", myNote.noteTitle) //put name
         intent.putExtra("body", myNote.noteBody) //put description
-        startActivity(intent) //start activity
+        startActivity(intent) //start view note activity
     }
 }
