@@ -1,10 +1,13 @@
 package com.dipasupil.christiancarlo.ccnotes
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.ClipboardManager
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_view_note.*
 
 class ViewNoteActivity : AppCompatActivity() {
@@ -48,6 +51,25 @@ class ViewNoteActivity : AppCompatActivity() {
                 intent.putExtra("body", note_body.text.toString()) //put description
                 startActivity(intent)
                 return true
+
+            }
+            R.id.delete_note_button -> { //delete
+                var dbManager = DbManager(this)
+                val selectionArgs = arrayOf(id.toString())
+                dbManager.delete("ID=?", selectionArgs)
+                finish()
+                return true
+            }
+            R.id.copy_note_button -> { //copy
+                //get title
+                val title = note_title.text.toString()
+                //get body
+                val body = note_body.text.toString()
+                //concatinate title and body
+                val s = title + "\n" + body
+                val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cb.text = s // add to clipboard
+                Toast.makeText(this, "Copied...", Toast.LENGTH_SHORT).show()
 
             }
 

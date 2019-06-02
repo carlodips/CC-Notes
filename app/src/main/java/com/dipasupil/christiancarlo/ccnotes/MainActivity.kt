@@ -123,29 +123,7 @@ class MainActivity : AppCompatActivity() {
             val myNote = listNotesAdapter[position]
             myView.card_title.text = myNote.noteTitle
             myView.card_body.text = myNote.noteBody
-//            //delete button click
-//            myView.deleteBtn.setOnClickListener {
-//                var dbManager = DbManager(this.context!!)
-//                val selectionArgs = arrayOf(myNote.noteID.toString())
-//                dbManager.delete("ID=?", selectionArgs)
-//                loadQuery("%")
-//            }
-//            //edit//update button click
-//            myView.editBtn.setOnClickListener {
-//                viewSelectedNote(myNote)
-//            }
-//            //copy btn click
-//            myView.copyBtn.setOnClickListener {
-//                //get title
-//                val title = myView.card_title.text.toString()
-//                //get description
-//                val desc = myView.card_body.text.toString()
-//                //concatinate
-//                val s = title + "\n" + desc
-//                val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-//                cb.text = s // add to clipboard
-//                Toast.makeText(this@MainActivity, "Copied...", Toast.LENGTH_SHORT).show()
-//            }
+
 //            //share btn click
 //            myView.shareBtn.setOnClickListener {
 //                //get title

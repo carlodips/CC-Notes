@@ -6,7 +6,10 @@
         android:id="@+id/edit_note_button"
         android:title="Edit"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/copy_note_button"
+        android:title="Copy"
+        app:showAsAction="never" />
     <item
         android:id="@+id/delete_note_button"
         android:title="Delete"
