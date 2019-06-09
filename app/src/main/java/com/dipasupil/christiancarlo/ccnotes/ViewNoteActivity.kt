@@ -69,8 +69,22 @@ class ViewNoteActivity : AppCompatActivity() {
                 val s = title + "\n" + body
                 val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 cb.text = s // add to clipboard
-                Toast.makeText(this, "Copied...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Note copied to clipboard.", Toast.LENGTH_SHORT).show()
 
+            }
+            R.id.share_note_button -> { //share
+                //get title
+                val title = note_title.text.toString()
+                //get body
+                val body = note_body.text.toString()
+                //concatenate
+                val s = title + "\n" + body
+                //share intent
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, s)
+                startActivity(Intent.createChooser(shareIntent, s))
             }
 
 

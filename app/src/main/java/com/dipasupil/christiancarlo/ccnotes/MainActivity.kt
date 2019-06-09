@@ -124,22 +124,6 @@ class MainActivity : AppCompatActivity() {
             myView.card_title.text = myNote.noteTitle
             myView.card_body.text = myNote.noteBody
 
-//            //share btn click
-//            myView.shareBtn.setOnClickListener {
-//                //get title
-//                val title = myView.card_title.text.toString()
-//                //get description
-//                val desc = myView.card_body.text.toString()
-//                //concatenate
-//                val s = title + "\n" + desc
-//                //share intent
-//                val shareIntent = Intent()
-//                shareIntent.action = Intent.ACTION_SEND
-//                shareIntent.type = "text/plain"
-//                shareIntent.putExtra(Intent.EXTRA_TEXT, s)
-//                startActivity(Intent.createChooser(shareIntent, s))
-//            }
-
             return myView
         }
 
