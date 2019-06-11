@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         var dbManager = DbManager(this)
         val projections = arrayOf("ID", "Title", "Description", "Created", "Updated")
         val selectionArgs = arrayOf(title)
-        val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Created")
+        val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Created DESC")
         listNotes.clear()
         if (cursor.moveToFirst()) {
 

@@ -18,6 +18,8 @@ class ViewNoteActivity : AppCompatActivity() {
 
     var noteTitle = ""
     var noteDesc = ""
+    var created = ""
+    var updated = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +53,16 @@ class ViewNoteActivity : AppCompatActivity() {
             val ID = cursor.getInt(cursor.getColumnIndex("ID"))
             noteTitle = cursor.getString(cursor.getColumnIndex("Title"))
             noteDesc = cursor.getString(cursor.getColumnIndex("Description"))
-            val Time = cursor.getString(cursor.getColumnIndex("Created"))
-            val Updated = cursor.getString(cursor.getColumnIndex("Updated"))
+            created = cursor.getString(cursor.getColumnIndex("Created"))
+            updated = cursor.getString(cursor.getColumnIndex("Updated"))
 
 
         }
 
         note_title.text = noteTitle
         note_body.text = noteDesc
+        card_time_created.text = created
+        card_time_updated.text = updated
     }
 
 

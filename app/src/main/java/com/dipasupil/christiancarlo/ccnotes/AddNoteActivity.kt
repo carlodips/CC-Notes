@@ -41,7 +41,14 @@ class AddNoteActivity : AppCompatActivity() {
         // Handle presses on the action bar main_menu items
         when (item.itemId) {
             R.id.save_note_button -> {
-                addFunc()
+
+                if(note_title.text.toString().equals("") && note_body.text.toString().equals("")){
+                    Toast.makeText(this, "Note is empty. Discarded.", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                else{
+                    addFunc()
+                }
                 return true
             }
 
@@ -61,7 +68,7 @@ class AddNoteActivity : AppCompatActivity() {
         //Since LocalDateTime.now() is not supported below 26...
         //values.put("Created", LocalDateTime.now().toString())
         val date = getCurrentDateTime()
-        values.put("Created", "Created: " + date.toString("MM/dd/yyyy hh:mm a"))
+        values.put("Created", "Created: " + date.toString("MM/dd/yyyy hh:mm:ss a"))
         values.put("Updated", "")
 
 
