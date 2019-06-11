@@ -24,13 +24,17 @@ class DbManager {
     var colID = "ID"
     var colTitle = "Title"
     var colBody = "Description"
+    var colTimeCreated = "Created"
+    var colTimeUpdated = "Updated"
     //database version
     var dbVersion = 1
 
 
     //CREATE TABLE IF NOT EXISTS MyNotes (ID INTEGER PRIMARY KEY,title TEXT, Description TEXT);"
     val sqlCreateTable = "CREATE TABLE IF NOT EXISTS " +
-            dbTable + " (" + colID + " INTEGER PRIMARY KEY," + colTitle + " TEXT, " + colBody + " TEXT);"
+            dbTable + " (" + colID + " INTEGER PRIMARY KEY," + colTitle + " TEXT, " +
+            colBody + " TEXT, " + colTimeCreated + " DEFAULT CURRENT_TIMESTAMP, " + colTimeUpdated +
+            " DEFAULT CURRENT_TIMESTAMP );"
 
     var sqlDB: SQLiteDatabase? = null
 
@@ -48,7 +52,7 @@ class DbManager {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db!!.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "database created...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Database created...", Toast.LENGTH_SHORT).show()
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

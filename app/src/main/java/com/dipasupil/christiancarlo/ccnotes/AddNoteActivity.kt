@@ -23,14 +23,6 @@ class AddNoteActivity : AppCompatActivity() {
 
         toolbar!!.title = "Add Note"
 
-//        try {
-//            val bundle:Bundle = intent.extras
-//            id = bundle.getInt("ID", 0)
-//            if (id!=0){
-//                note_title.setText(bundle.getString("name"))
-//                note_body.setText(bundle.getString("des"))
-//            }
-//        }catch (ex:Exception){}
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,6 +52,7 @@ class AddNoteActivity : AppCompatActivity() {
         var values = ContentValues()
         values.put("Title", note_title.text.toString())
         values.put("Description", note_body.text.toString())
+
 
         if (id ==0){
             val ID = dbManager.insert(values)

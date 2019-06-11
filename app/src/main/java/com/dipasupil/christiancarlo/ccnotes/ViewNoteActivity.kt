@@ -2,8 +2,10 @@ package com.dipasupil.christiancarlo.ccnotes
 
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.ClipboardManager
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +15,9 @@ import kotlinx.android.synthetic.main.activity_view_note.*
 class ViewNoteActivity : AppCompatActivity() {
     val dbTable = "Notes"
     var id = 0
+
+    var noteTitle = ""
+    var noteDesc = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +31,36 @@ class ViewNoteActivity : AppCompatActivity() {
         try {
             val bundle:Bundle = intent.extras
             id = bundle.getInt("ID", 0)
-            if (id!=0){
-                note_title.setText(bundle.getString("title"))
-                note_body.setText(bundle.getString("body"))
-            }
+            loadNote(id.toString())
         }catch (ex:Exception){}
     }
+    override fun onResume() {
+        super.onResume()
+        loadNote(id.toString())
+    }
+
+    private fun loadNote(id: String){
+        val dbManager = DbManager(this)
+        val projections = arrayOf("ID", "Title", "Description", "Created", "Updated")
+        val selectionArgs = arrayOf(id)
+        val cursor = dbManager.Query(projections, "ID like ?", selectionArgs, "Title")
+
+        if (cursor.moveToFirst()) {
+
+            val ID = cursor.getInt(cursor.getColumnIndex("ID"))
+            noteTitle = cursor.getString(cursor.getColumnIndex("Title"))
+            noteDesc = cursor.getString(cursor.getColumnIndex("Description"))
+            val Time = cursor.getString(cursor.getColumnIndex("Created"))
+            val Updated = cursor.getString(cursor.getColumnIndex("Updated"))
+
+
+        }
+
+        note_title.text = noteTitle
+        note_body.text = noteDesc
+    }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -55,9 +84,21 @@ class ViewNoteActivity : AppCompatActivity() {
             }
             R.id.delete_note_button -> { //delete
                 var dbManager = DbManager(this)
-                val selectionArgs = arrayOf(id.toString())
-                dbManager.delete("ID=?", selectionArgs)
-                finish()
+                val deleteAlert = AlertDialog.Builder(this@ViewNoteActivity)
+                deleteAlert.setTitle("Delete?")
+                deleteAlert.setMessage("Are you sure you want to delete this note?")
+
+                deleteAlert.setPositiveButton("Yes"){dialog, which ->
+                    Toast.makeText(applicationContext,"Note deleted.",Toast.LENGTH_SHORT).show()
+                    val selectionArgs = arrayOf(id.toString())
+                    dbManager.delete("ID=?", selectionArgs)
+                    finish()
+                }
+                deleteAlert.setNegativeButton("No"){dialog, which ->
+                    //Nothing happens
+                }
+                val dialog: AlertDialog = deleteAlert.create()
+                dialog.show()
                 return true
             }
             R.id.copy_note_button -> { //copy

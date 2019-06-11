@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
     }
 
     override fun onResume() {
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadQuery(title: String) {
         var dbManager = DbManager(this)
-        val projections = arrayOf("ID", "Title", "Description")
+        val projections = arrayOf("ID", "Title", "Description", "Created", "Updated")
         val selectionArgs = arrayOf(title)
         val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Title")
         listNotes.clear()
@@ -62,8 +61,10 @@ class MainActivity : AppCompatActivity() {
                 val ID = cursor.getInt(cursor.getColumnIndex("ID"))
                 val Title = cursor.getString(cursor.getColumnIndex("Title"))
                 val Description = cursor.getString(cursor.getColumnIndex("Description"))
+                val Time = cursor.getString(cursor.getColumnIndex("Created"))
+                val Updated = cursor.getString(cursor.getColumnIndex("Updated"))
 
-                listNotes.add(Note(ID, Title, Description))
+                listNotes.add(Note(ID, Title, Description, Time, Updated))
 
             } while (cursor.moveToNext())
         }
@@ -123,6 +124,8 @@ class MainActivity : AppCompatActivity() {
             val myNote = listNotesAdapter[position]
             myView.card_title.text = myNote.noteTitle
             myView.card_body.text = myNote.noteBody
+            myView.card_time.text = "Created: " + myNote.noteCreated
+            myView.card_updated.text = "Updated: " + myNote.noteUpdated
 
             return myView
         }
@@ -145,8 +148,8 @@ class MainActivity : AppCompatActivity() {
     private fun viewSelectedNote(myNote: Note) {
         var intent = Intent(this, ViewNoteActivity::class.java)
         intent.putExtra("ID", myNote.noteID) //put id
-        intent.putExtra("title", myNote.noteTitle) //put name
-        intent.putExtra("body", myNote.noteBody) //put description
+//        intent.putExtra("title", myNote.noteTitle) //put name
+//        intent.putExtra("body", myNote.noteBody) //put description
         startActivity(intent) //start view note activity
     }
 }
