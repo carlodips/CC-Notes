@@ -1,5 +1,6 @@
 package com.dipasupil.christiancarlo.ccnotes
 
+import android.annotation.TargetApi
 import android.content.ContentValues
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_notes.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 class AddNoteActivity : AppCompatActivity() {
     val dbTable = "Notes"
@@ -46,12 +50,19 @@ class AddNoteActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    //@TargetApi(26)
     fun addFunc(){
         var dbManager = DbManager(this)
 
         var values = ContentValues()
         values.put("Title", note_title.text.toString())
         values.put("Description", note_body.text.toString())
+
+        //Since LocalDateTime.now() is not supported below 26...
+        //values.put("Created", LocalDateTime.now().toString())
+        val date = getCurrentDateTime()
+        values.put("Created", "Created: " + date.toString("MM/dd/yyyy hh:mm a"))
+        values.put("Updated", "")
 
 
         if (id ==0){
@@ -75,6 +86,16 @@ class AddNoteActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error adding note...", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    //timestamp
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
+
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
     }
 
 

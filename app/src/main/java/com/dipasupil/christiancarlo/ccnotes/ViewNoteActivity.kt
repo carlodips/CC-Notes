@@ -34,6 +34,7 @@ class ViewNoteActivity : AppCompatActivity() {
             loadNote(id.toString())
         }catch (ex:Exception){}
     }
+
     override fun onResume() {
         super.onResume()
         loadNote(id.toString())

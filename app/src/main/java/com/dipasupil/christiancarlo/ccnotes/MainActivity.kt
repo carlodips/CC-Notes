@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         var dbManager = DbManager(this)
         val projections = arrayOf("ID", "Title", "Description", "Created", "Updated")
         val selectionArgs = arrayOf(title)
-        val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Title")
+        val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Created")
         listNotes.clear()
         if (cursor.moveToFirst()) {
 
@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
 
             } while (cursor.moveToNext())
         }
+
+
 
         //adapter
         var myNotesAdapter = MyNotesAdapter(this, listNotes)
@@ -124,8 +126,8 @@ class MainActivity : AppCompatActivity() {
             val myNote = listNotesAdapter[position]
             myView.card_title.text = myNote.noteTitle
             myView.card_body.text = myNote.noteBody
-            myView.card_time.text = "Created: " + myNote.noteCreated
-            myView.card_updated.text = "Updated: " + myNote.noteUpdated
+            myView.card_time.text = myNote.noteCreated
+            myView.card_updated.text = myNote.noteUpdated
 
             return myView
         }

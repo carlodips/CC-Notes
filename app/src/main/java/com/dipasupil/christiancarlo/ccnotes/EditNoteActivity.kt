@@ -10,6 +10,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_notes.*
 import kotlinx.android.synthetic.main.activity_edit_note.*
 import kotlinx.android.synthetic.main.activity_view_note.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditNoteActivity : AppCompatActivity() {
     val dbTable = "Notes"
@@ -65,6 +67,9 @@ class EditNoteActivity : AppCompatActivity() {
         values.put("Title", edit_note_title.text.toString())
         values.put("Description", edit_note_body.text.toString())
 
+        val date = getCurrentDateTime()
+        values.put("Updated", "Updated: " + date.toString("MM/dd/yyyy hh:mm a"))
+
         if (id ==0){
             val ID = dbManager.insert(values)
             if (ID>0){
@@ -86,5 +91,15 @@ class EditNoteActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error saving changes", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    //timestamp
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
+
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
     }
 }
